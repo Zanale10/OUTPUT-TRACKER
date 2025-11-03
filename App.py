@@ -110,11 +110,11 @@ with col_title:
     st.write("Quality • Trust • Innovation")
 with col_role:
     if st.session_state.role is None:
-        if st.button("Continue as Other"):
+        if st.button("👷 Continue as Other"):
             st.session_state.role = "other"
             st.session_state.logged_in_user = "Other"
             st.experimental_rerun()
-        if st.button("Login as Admin"):
+        if st.button("🧰 Login as Admin"):
             # show password input
             passcode = st.text_input("Enter admin passcode", type="password", key="login_pass")
             if st.button("Submit Passcode"):
@@ -307,7 +307,7 @@ elif choice == "Expected Output Settings":
     if st.session_state.role != "admin":
         st.error("Access denied. Only Admin can edit expected outputs.")
     else:
-        st.subheader(Expected Output Settings (Admin Only)")
+        st.subheader("⚙️ Expected Output Settings (Admin Only)")
 
         df_expected = pd.read_sql("SELECT * FROM expected_output ORDER BY material, size, pn, machine", conn)
         if df_expected.empty:
@@ -362,7 +362,7 @@ elif choice == "Expected Output Settings":
 # PAGE: Dashboard
 # -----------------------
 elif choice == "Dashboard":
-    st.subheader(" Dashboard")
+    st.subheader("📊 Dashboard")
 
     df_logs = pd.read_sql("SELECT * FROM machine_logs", conn)
     df_runs = pd.read_sql("SELECT * FROM run_log", conn)
