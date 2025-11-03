@@ -54,7 +54,7 @@ choice = st.sidebar.selectbox("Navigation", menu)
 # DATA ENTRY PAGE
 # -----------------------------
 if choice == "Data Entry":
-    st.subheader("📥 Enter Daily Machine Data")
+    st.subheader(" Enter Daily Machine Data")
 
     with st.form("data_entry_form"):
         date = st.date_input("Select Date", datetime.now())
@@ -97,7 +97,7 @@ if choice == "Data Entry":
 # DASHBOARD PAGE
 # -----------------------------
 elif choice == "Dashboard":
-    st.subheader("📊 Machine Performance Dashboard")
+    st.subheader(" Machine Performance Dashboard")
 
     df = pd.read_sql("SELECT * FROM machine_data", conn)
 
@@ -119,7 +119,7 @@ elif choice == "Dashboard":
             return color
 
         # Styled table with color code
-        st.markdown("### 📋 Detailed Data with Color-Coded Deviations")
+        st.markdown("###  Detailed Data with Color-Coded Deviations")
         styled_df = df.style.applymap(color_deviation, subset=["deviation"]).format({
             "expected_output": "{:.2f} kg/hr",
             "actual_output": "{:.2f} kg/hr",
@@ -128,7 +128,7 @@ elif choice == "Dashboard":
         st.dataframe(styled_df, use_container_width=True)
 
         # Bar chart: Machine vs Output
-        st.markdown("### 📈 Output Comparison by Machine")
+        st.markdown("###  Output Comparison by Machine")
         fig = px.bar(
             df,
             x="machine",
@@ -141,7 +141,7 @@ elif choice == "Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
         # Filter section
-        st.markdown("### 🔍 Filter Data")
+        st.markdown("###  Filter Data")
         machines = st.multiselect("Select Machine(s) to View", df["machine"].unique())
         materials = st.multiselect("Select Material(s) to View", df["material"].unique())
 
@@ -175,7 +175,7 @@ elif choice == "Export / Reports":
         excel_data = output.getvalue()
 
         st.download_button(
-            label="📥 Download Excel File",
+            label=" Download Excel File",
             data=excel_data,
             file_name="machine_data.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -184,7 +184,7 @@ elif choice == "Export / Reports":
         # Download as CSV
         csv = df.to_csv(index=False).encode("utf-8")
         st.download_button(
-            label="📄 Download CSV File",
+            label="Download CSV File",
             data=csv,
             file_name="machine_data.csv",
             mime="text/csv"
