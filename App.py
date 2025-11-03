@@ -67,7 +67,13 @@ if choice == "Data Entry":
                 "110 mm PN 10", "125 mm PN 10", "160 mm PN 10"
             ]
         )
-        material = st.text_input("Material")
+
+        # Material dropdown
+        material = st.selectbox(
+            "Select Material",
+            ["HDPE", "PPR", "PP"]
+        )
+
         expected_output = st.number_input("Expected Output (kg/hr)", min_value=0.0)
         actual_output = st.number_input("Actual Output (kg/hr)", min_value=0.0)
         remarks = st.text_area("Remarks")
@@ -106,7 +112,6 @@ elif choice == "Dashboard":
 
         # Color coding function
         def color_deviation(val):
-            color = ""
             if 1 <= abs(val) <= 10:
                 color = 'background-color: #d6f5d6'  # Light green
             else:
@@ -138,9 +143,18 @@ elif choice == "Dashboard":
         # Filter section
         st.markdown("### 🔍 Filter Data")
         machines = st.multiselect("Select Machine(s) to View", df["machine"].unique())
+        materials = st.multiselect("Select Material(s) to View", df["material"].unique())
+
+        filtered_df = df.copy()
         if machines:
-            filtered_df = df[df["machine"].isin(machines)]
-            st.dataframe(filtered_df)
+            filtered_df = filtered_df[filtered_df["machine"].isin(machines)]
+        if materials:
+            filtered_df = filtered_df[filtered_df["material"].isin(materials)]
+
+        if not filtered_df.empty:
+            st.dataframe(filtered_df, use_container_width=True)
+        else:
+            st.info("No data matches your selected filters.")
 
 # -----------------------------
 # EXPORT / REPORTS PAGE
@@ -157,7 +171,7 @@ elif choice == "Export / Reports":
         output = BytesIO()
         with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, sheet_name="Machine Data")
-            writer.save()
+            writer.close()
         excel_data = output.getvalue()
 
         st.download_button(
