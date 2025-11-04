@@ -6,6 +6,14 @@ from dotenv import load_dotenv
 from io import BytesIO
 import datetime
 
+# Load environment variables
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Connect to your Supabase PostgreSQL
+conn = psycopg2.connect(DATABASE_URL)
+
 # --- Load environment variables ---
 load_dotenv()
 
