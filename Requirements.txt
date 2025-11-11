@@ -1,5 +1,8 @@
 streamlit
 pandas
+sqlalchemy
+psycopg2-binary
 openpyxl
 xlsxwriter
 plotly
+python-dotenv
